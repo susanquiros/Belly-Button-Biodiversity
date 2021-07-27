@@ -9,7 +9,18 @@ function init(data) {
     console.log(data.metadata);
     console.log(data.samples);
     load_dropdown_list(data.names);
-    build_chart('940')
+    build_chart('id')
 };
 
-
+//generating the drop-down list 
+function load_dropdown_list(names) {
+    let dropdown = document.getElementById('selDataset');
+    names.forEach(function (name) {
+        let opt = document.createElement('option');
+        let att = document.createAttribute('value');
+        att.value = name;
+        opt.setAttributeNode(att);
+        opt.text = name;
+        dropdown.appendChild(opt);
+    })
+};
