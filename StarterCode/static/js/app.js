@@ -81,12 +81,92 @@ function build_chart(id) {
             }
             // Setting title
             let layout = {
-                title: `Top 10 OTU for ID ${(id)}`
-            }
+                title: {
+                    text: `<b>Top 10 OTU for ID ${(id)}</b>`,
+                    font: {
+                        size: 16,
+                    },
+                    height: 1000,
+                    width: 800
+                }
+            };
             // Defining traceBar
             var traceBar = [traceBar]
             // Placing the bar chart into the 'bar' div
             Plotly.newPlot('bar', traceBar, layout);
+
+            //Creating the bubble chart
+            let traceBubble = {
+                x:  label_ids,
+                y: sample_values,
+                text: label_labels,
+                mode: 'markers',
+                marker: {
+                    size: sample_values,
+                    color: label_ids,
+                    colorscale: 'Picnic'
+                }
+            };
+
+            // Setting title
+            let layout_bubble = {
+                title: {
+                    text: `<b>Bacteria Cultures for ID ${(id)}</b>`,
+                    font: {
+                        size: 16,
+                    },
+                    height: 1000,
+                    width: 800
+                },
+                xaxis: {
+                    title : {
+                        text:'<b>OTU ID</b>',
+                        font: {
+                            size: 16,
+                        },
+                        height: 1000,
+                        width: 800
+                }}
+            };
+            let traceBubble1 = [traceBubble];
+            // Placing the bar chart into the 'bar' div
+            Plotly.newPlot('bubble', traceBubble1, layout_bubble );
+
+
+            //creating the Gauge chart 
+            let traceGauge = [
+                {
+                    domain: { x: [0, 1], y: [0, 1] },
+                    value: metadata.wfreq,
+                    title: { text: `<b> Belly Button Washing Frequency ID ${(id)}</b>` },
+                    type: "indicator",
+                    mode: "gauge+number",
+                    gauge: {
+                        axis: { range: [0, 9], tickwidth: 1, tickcolor: "darkblue" },
+                        steps: [
+                            { range: [0, 1], color: 'rgb(215,48,39)' },
+                            { range: [1, 2], color: 'rgb(244,109,67)' },
+                            { range: [2, 3], color: 'rgb(253,174,97)' },
+                            { range: [3, 4], color: 'rgb(254,224,144)' },
+                            { range: [4, 5], color: 'rgb(224,243,248)' },
+                            { range: [5, 6], color: 'rgb(171,217,233)' },
+                            { range: [6, 7], color: 'rgb(116,173,209)'},
+                            { range: [7, 8], color: 'rgb(69,117,180)' },
+                            { range: [8, 9], color: 'rgb(49,54,149)' }
+                        ],
+                        threshold: {
+                            line: { color: "red", width: 4 },
+                            thickness: 0.75,
+                            value: 9
+                        }
+                    }
+                }
+            ];
+
+            var layout_gauge = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+            Plotly.newPlot('gauge', traceGauge, layout_gauge);
+
+
         });
 
 };
